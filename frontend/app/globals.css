@@ -1,39 +1,33 @@
+/* ── Google Fonts ── MUST be FIRST before @tailwind ─────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ── Google Fonts ────────────────────────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap');
-
-/* ── CSS Variables ───────────────────────────────────────────────────────────── */
+/* ── CSS Variables ───────────────────────────────────────────────────────── */
 :root {
-  --bg-primary:   #0A0A0F;
-  --bg-secondary: #12121A;
-  --bg-card:      #1A1A26;
-  --bg-elevated:  #22223A;
-  --gold:         #D4AF37;
-  --gold-light:   #F0D060;
-  --gold-muted:   #A8892B;
-  --gold-glow:    rgba(212, 175, 55, 0.15);
-  --gold-border:  rgba(212, 175, 55, 0.2);
-  --text-primary: #F5F5F5;
+  --bg-primary:     #0A0A0F;
+  --bg-secondary:   #12121A;
+  --bg-card:        #1A1A26;
+  --gold:           #D4AF37;
+  --gold-light:     #F0D060;
+  --gold-muted:     #A8892B;
+  --gold-glow:      rgba(212, 175, 55, 0.2);
+  --text-primary:   #F5F5F5;
   --text-secondary: #C8C8D8;
-  --text-muted:   #9090A0;
-  --status-success: #22C55E;
-  --status-warning: #F59E0B;
-  --status-error:   #EF4444;
-  --status-info:    #3B82F6;
-  --navbar-height: 72px;
+  --text-muted:     #9090A0;
+  --navbar-height:  72px;
+  --transition-main: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ── Base Reset ──────────────────────────────────────────────────────────────── */
+/* ── Base Reset ──────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
 }
 
 body {
@@ -41,62 +35,91 @@ body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   min-height: 100vh;
-  line-height: 1.6;
   overflow-x: hidden;
+  position: relative;
 }
 
-/* ── Typography ──────────────────────────────────────────────────────────────── */
+/* Ambient Background Glow */
+body::before {
+  content: "";
+  position: fixed;
+  top: -10%;
+  left: -10%;
+  width: 50%;
+  height: 50%;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.04) 0%, transparent 70%);
+  z-index: -1;
+  pointer-events: none;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Playfair Display', Georgia, serif;
+  color: var(--text-primary);
   line-height: 1.2;
   letter-spacing: -0.01em;
-  color: var(--text-primary);
 }
 
 p { color: var(--text-secondary); line-height: 1.7; }
 
-a {
-  color: var(--gold);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
+a { color: var(--gold); text-decoration: none; transition: var(--transition-main); }
 a:hover { color: var(--gold-light); }
 
-/* ── Custom Scrollbar ────────────────────────────────────────────────────────── */
+/* ── Scrollbar ───────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg-secondary); }
-::-webkit-scrollbar-thumb {
-  background: rgba(212, 175, 55, 0.3);
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover { background: rgba(212, 175, 55, 0.5); }
+::-webkit-scrollbar-thumb { background: rgba(212,175,55,0.2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(212,175,55,0.4); }
 
-/* ── Selection ───────────────────────────────────────────────────────────────── */
-::selection {
-  background: rgba(212, 175, 55, 0.25);
-  color: var(--gold-light);
-}
+::selection { background: rgba(212,175,55,0.25); color: var(--gold-light); }
 
-/* ── Focus Ring ──────────────────────────────────────────────────────────────── */
-:focus-visible {
-  outline: 2px solid var(--gold);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 4px; }
 
-/* ── Utility Classes ─────────────────────────────────────────────────────────── */
+/* ── Utility Classes ─────────────────────────────────────────────────────── */
 @layer components {
-
-  /* Glass Card */
-  .glass-card {
-    background: rgba(26, 26, 38, 0.8);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(212, 175, 55, 0.15);
-    border-radius: 16px;
+  /* High-end Metallic Gold Button */
+  .btn-gold {
+    background: linear-gradient(135deg, var(--gold-muted) 0%, var(--gold) 50%, var(--gold-light) 100%);
+    color: #0A0A0F;
+    font-weight: 600;
+    padding: 12px 28px;
+    border-radius: 8px;
+    transition: var(--transition-main);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   }
 
-  /* Gold Gradient Text */
+  .btn-gold:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px var(--gold-glow);
+    filter: brightness(1.1);
+  }
+
+  .btn-gold:active {
+    transform: translateY(0);
+  }
+
+  /* Enhanced Glass Card with inner lighting */
+  .glass-card {
+    background: rgba(26,26,38,0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 
+      0 20px 40px -15px rgba(0, 0, 0, 0.5),
+      inset 0 1px 1px rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    transition: var(--transition-main);
+  }
+
+  .glass-card:hover {
+    border-color: rgba(212, 175, 55, 0.2);
+    transform: translateY(-4px);
+  }
+
   .text-gold-gradient {
     background: linear-gradient(135deg, #D4AF37 0%, #F0D060 50%, #A8892B 100%);
     -webkit-background-clip: text;
@@ -104,192 +127,53 @@ a:hover { color: var(--gold-light); }
     background-clip: text;
   }
 
-  /* Gold Button */
-  .btn-gold {
-    background: linear-gradient(135deg, #D4AF37, #F0D060);
-    color: #0A0A0F;
-    font-weight: 700;
-    border-radius: 8px;
-    transition: all 0.25s ease;
-    box-shadow: 0 4px 16px rgba(212, 175, 55, 0.25);
-  }
-  .btn-gold:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 24px rgba(212, 175, 55, 0.45);
-  }
-  .btn-gold:active { transform: translateY(0); }
-
-  /* Ghost Button */
-  .btn-ghost {
-    background: transparent;
-    color: var(--gold);
-    border: 1px solid rgba(212, 175, 55, 0.4);
-    border-radius: 8px;
-    font-weight: 600;
-    transition: all 0.25s ease;
-  }
-  .btn-ghost:hover {
-    background: rgba(212, 175, 55, 0.08);
-    border-color: var(--gold);
-    box-shadow: 0 0 16px rgba(212, 175, 55, 0.15);
-  }
-
-  /* Dark Input */
-  .input-dark {
-    background: rgba(18, 18, 26, 0.8);
-    border: 1px solid rgba(212, 175, 55, 0.2);
-    border-radius: 8px;
-    color: var(--text-primary);
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    width: 100%;
-    padding: 0.75rem 1rem;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.9375rem;
-  }
-  .input-dark::placeholder { color: var(--text-muted); }
-  .input-dark:focus {
-    outline: none;
-    border-color: var(--gold);
-    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
-  }
-
-  /* Section Container */
-  .section-container {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-  }
-
-  /* Gold Divider */
-  .gold-divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent);
-  }
-
-  /* Shimmer Skeleton */
-  .skeleton {
-    background: linear-gradient(
-      90deg,
-      rgba(255,255,255,0.03) 25%,
-      rgba(255,255,255,0.07) 50%,
-      rgba(255,255,255,0.03) 75%
-    );
-    background-size: 200% 100%;
-    animation: shimmer 1.8s infinite;
-    border-radius: 8px;
-  }
-
-  /* Noise Texture Overlay */
-  .noise-overlay::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
-    pointer-events: none;
-    border-radius: inherit;
-  }
-
-  /* Badge */
-  .badge-gold {
-    background: rgba(212, 175, 55, 0.12);
-    color: var(--gold-light);
-    border: 1px solid rgba(212, 175, 55, 0.25);
-    border-radius: 100px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 2px 10px;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  /* Scrollable horizontal container */
-  .scroll-x {
-    overflow-x: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-  .scroll-x::-webkit-scrollbar { display: none; }
-
-  /* Navbar blur */
   .navbar-blur {
-    background: rgba(10, 10, 15, 0.85);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(212, 175, 55, 0.08);
+    background: rgba(10,10,15,0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
   }
 
-  /* Page section spacing */
-  .page-section { padding: 5rem 0; }
-  @media (max-width: 768px) { .page-section { padding: 3rem 0; } }
+  /* For small sub-headers or labels */
+  .caps-label {
+    font-family: 'DM Sans', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--gold-muted);
+  }
 }
 
-/* ── Keyframe Animations ─────────────────────────────────────────────────────── */
+/* ── Keyframes & Animations ─────────────────────────────────────────────── */
 @keyframes shimmer {
   0%   { background-position: -200% 0; }
   100% { background-position:  200% 0; }
 }
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
+
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
+  from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-@keyframes fadeDown {
-  from { opacity: 0; transform: translateY(-24px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes slideInRight {
-  from { opacity: 0; transform: translateX(32px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-@keyframes slideInLeft {
-  from { opacity: 0; transform: translateX(-32px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-@keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.92); }
-  to   { opacity: 1; transform: scale(1); }
-}
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-12px); }
-}
-@keyframes pulseGold {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(212,175,55,0); }
-  50%       { box-shadow: 0 0 0 8px rgba(212,175,55,0.12); }
-}
-@keyframes spin { to { transform: rotate(360deg); } }
 
-/* ── Toast Animations ────────────────────────────────────────────────────────── */
-@keyframes toastIn {
-  from { opacity: 0; transform: translateX(100%); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-@keyframes toastOut {
-  from { opacity: 1; transform: translateX(0); }
-  to   { opacity: 0; transform: translateX(100%); }
+/* Apply fadeUp globally to main content sections */
+main > section {
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* ── Page transition ─────────────────────────────────────────────────────────── */
-.page-enter { animation: fadeUp 0.4s ease forwards; }
+.skeleton {
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0.03) 25%,
+    rgba(255,255,255,0.07) 50%,
+    rgba(255,255,255,0.03) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.8s infinite;
+  border-radius: 8px;
+}
 
-/* ── Map container ───────────────────────────────────────────────────────────── */
-.map-container { border-radius: 16px; overflow: hidden; }
-
-/* ── React date picker overrides (dark theme) ────────────────────────────────── */
-.rdp { --rdp-accent-color: #D4AF37; --rdp-background-color: rgba(212,175,55,0.1); }
-
-/* ── Recharts dark overrides ─────────────────────────────────────────────────── */
+/* ── Recharts Dark Theme ─────────────────────────────────────────────────── */
 .recharts-cartesian-grid-horizontal line,
-.recharts-cartesian-grid-vertical line {
-  stroke: rgba(255,255,255,0.05) !important;
-}
-.recharts-text { fill: #9090A0 !important; font-size: 12px !important; }
-.recharts-tooltip-wrapper .recharts-default-tooltip {
-  background: #1A1A26 !important;
-  border: 1px solid rgba(212,175,55,0.2) !important;
-  border-radius: 8px !important;
-}
+.recharts-cartesian-grid-vertical line { stroke: rgba(255,255,255,0.05) !important; }
+.recharts-text { fill: var(--text-muted) !important; font-size: 12px !important; }
+

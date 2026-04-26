@@ -138,7 +138,10 @@ export const getBookingById = async (req: Request, res: Response): Promise<void>
     if (!booking) { sendError(res, 'Booking not found.', 404); return; }
 
     // Auth check: only user, provider, or admin can view
-    const isOwner    = String(booking.user)     === req.userId;
+    const bookingUserId = typeof booking.user === 'object' && booking.user !== null
+      ? String((booking.user as unknown as { _id: string })._id)
+      : String(booking.user);
+    const isOwner    = bookingUserId === req.userId;
     const isProvider = req.userRole === 'provider';
     const isAdmin    = req.userRole === 'admin';
     if (!isOwner && !isProvider && !isAdmin) {

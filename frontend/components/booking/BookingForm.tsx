@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Calendar, MapPin, FileText, CheckCircle, Zap, CreditCard, ArrowLeft, ArrowRight } from 'lucide-react';
 import { bookingAPI, paymentAPI } from '@/lib/api';
 import { IService, IProvider } from '@/types';
-import { formatPrice, generateTimeSlots, loadRazorpayScript, calculateEmergencyFee, cn } from '@/lib/utils';
+import { formatPrice, generateTimeSlots, loadRazorpayScript, cn } from '@/lib/utils';
 import { useNotification } from '@/context/NotificationContext';
 import Button from '@/components/ui/Button';
 import Input, { Textarea } from '@/components/ui/Input';

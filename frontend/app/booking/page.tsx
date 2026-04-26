@@ -86,7 +86,8 @@ export default function BookingPage() {
         ) : (
           <div className="flex flex-col gap-3">
             {bookings.map((b) => (
-              <div key={b._id} className="bg-[#1A1A26] border border-[rgba(212,175,55,0.1)] rounded-2xl p-5 flex items-center gap-4 hover:border-[rgba(212,175,55,0.25)] transition-all">
+              <Link key={b._id} href={`/booking/${b._id}`}>
+                <div className="bg-[#1A1A26] border border-[rgba(212,175,55,0.1)] rounded-2xl p-5 flex items-center gap-4 hover:border-[rgba(212,175,55,0.25)] transition-all cursor-pointer">
                 <div className="w-12 h-12 rounded-xl bg-[rgba(212,175,55,0.1)] flex items-center justify-center text-[#D4AF37] flex-shrink-0">
                   <CalendarCheck size={22} />
                 </div>
@@ -101,7 +102,9 @@ export default function BookingPage() {
                   {getBookingStatusLabel(b.status)}
                 </span>
                 <span className="text-[#F5F5F5] font-bold text-sm hidden sm:block">{formatPrice(b.amount)}</span>
-              </div>
+                <span className="text-[#55556A] text-xs hidden sm:block">→</span>
+                </div>
+              </Link>
             ))}
           </div>
         )}
